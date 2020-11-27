@@ -1,0 +1,10 @@
+.container{
+    position: sticky;
+    box-shadow: 0 5px 7px rgba(224, 224, 224, 0.692);
+}
+
+.container > div{
+    padding: 1em;
+    width: 70vw;
+    margin: 0 auto;
+}
