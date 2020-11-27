@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Home from './pages/home/home';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AuthContextProvider from './context/authenticationContext/authContext';
-import 'semantic-ui-css/semantic.min.css'
+import './styles/semantic-ui-css/semantic.min.css';
 import Navbar from './components/navbar/Navbar';
 const Login = lazy(() => import('./pages/login/login'));
 const CreatePost = lazy(() => import('./pages/posts/createPost'));

@@ -63,6 +63,7 @@ const AuthContextProvider = ({ children }) => {
 
         } catch (error) {
             console.log(error.response);
+            setAuthStatus({ isAuthenticated: false, userDetails: {}, authenticationError: error, jwt: '', isVerifying: false });
             return error.response;
         }
     };
