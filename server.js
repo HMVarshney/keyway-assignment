@@ -1,12 +1,12 @@
 const express = require('express');
 const app = express();
-const cors = require('cors');
+// const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 
 const { verifyJWT } = require('./middlewares/authentication');
 
-mongoose.connect('mongodb://localhost:27017/keyway-assignment', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+mongoose.connect('mongodb+srv://admin:admin@cluster0.gbe1u.gcp.mongodb.net/keyway?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
     .then(() => {
         console.log('connected to database');
     })
@@ -15,7 +15,7 @@ mongoose.connect('mongodb://localhost:27017/keyway-assignment', { useNewUrlParse
         process.exit();
     });
 
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 // app.use((req, res, next) => {
@@ -33,6 +33,10 @@ const constants = require('./constants');
 
 const authRoutes = require('./routes/authentication');
 const postsRoutes = require('./routes/posts');
+
+app.get('/', (req, res) => {
+    res.send('Server Running!')
+});
 
 app.use('/auth/local', authRoutes);
 app.use('/posts', postsRoutes);
