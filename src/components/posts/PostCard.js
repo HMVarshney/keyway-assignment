@@ -2,25 +2,8 @@ import Icon from '@bit/semantic-org.semantic-ui-react.icon';
 import Button from '@bit/semantic-org.semantic-ui-react.button';
 import styles from './Posts.module.css';
 import { Link } from 'react-router-dom';
-import { deletePost } from '../../api/getPosts';
-import { useContext } from 'react';
-import { AuthContext } from '../../context/authenticationContext/authContext';
 
-const PostCard = ({ post, setLoadAgain }) => {
-
-    const { authStatus } = useContext(AuthContext);
-
-    const handleDelete = async () => {
-        const response = await deletePost(post._id, authStatus.jwt);
-        console.log(response);
-        if (response?.status === 200) {
-            setLoadAgain((current) => (!current));
-            return;
-        }
-
-        return;
-    }
-
+const PostCard = ({ post }) => {
     return (
         <div className={styles.blogCard}>
             <div className='row no-gutters align-items-center'>
@@ -44,10 +27,12 @@ const PostCard = ({ post, setLoadAgain }) => {
                             </div>
                         </div>
                         <div className='d-flex align-items-center'>
-                            <span onClick={() => handleDelete()} style={{ cursor: 'pointer' }} className='d-flex mr-4'>
-                                <Icon color='blue' name='pencil' />
-                                <p>Edit</p>
-                            </span>
+                            <Link to={`/edit/${post._id}`}>
+                                <span style={{ cursor: 'pointer' }} className='d-flex mr-4'>
+                                    <Icon color='blue' name='pencil' />
+                                    <p>Edit</p>
+                                </span>
+                            </Link>
                             <Link to={`/postDisplay/${post._id}`}>
                                 <Button inverted primary>
                                     Read More
@@ -55,7 +40,7 @@ const PostCard = ({ post, setLoadAgain }) => {
                             </Link>
                         </div>
                     </div>
-                    <div style={{ maxHeight: '100px', overflow: 'hidden' }} className='mt-2'>
+                    <div style={{ minHeight: '100px', maxHeight: '100px', overflow: 'hidden' }} className='mt-2'>
                         <p>{post.content}</p>
                     </div>
                 </div>

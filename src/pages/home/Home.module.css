@@ -1,0 +1,5 @@
+.homepageBox{
+    box-shadow: 2px 2px 8px rgba(148, 148, 255, 0.61);
+    border-radius: 8px;
+    padding: 2em 1em;
+}

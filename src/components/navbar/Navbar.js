@@ -11,8 +11,12 @@ const Navbar = () => {
     return (
         <div className={styles.container}>
             <div>
-                <div className='d-flex'>
-                    <div>Logo</div>
+                <div className='d-flex align-items-center'>
+                    <div>
+                        <Link to='/'>
+                            <img src='/assets/icons/logo.svg' alt='logo' width='90%' />
+                        </Link>
+                    </div>
                     <div style={{ flexGrow: 1 }} />
                     <div>
                         <div className='d-flex align-items-center'>

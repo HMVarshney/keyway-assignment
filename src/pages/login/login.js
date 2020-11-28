@@ -6,7 +6,7 @@ import { AuthContext } from '../../context/authenticationContext/authContext';
 import Alert from '@bit/react-bootstrap.react-bootstrap.alert';
 import { Link } from 'react-router-dom';
 
-const Login = () => {
+const Login = (props) => {
 
     const { authStatus, login } = useContext(AuthContext);
 
@@ -18,7 +18,13 @@ const Login = () => {
         await login(emailRef.current.value, passwordRef.current.value);
 
         emailRef.current.disabled = true; passwordRef.current.disabled = true;
-    }
+
+        if (props.location.state) {
+            props.history.push(props.location.state.from.pathname);
+        } else {
+            props.history.push('/');
+        }
+    };
 
     return (
         <div className={styles.container}>

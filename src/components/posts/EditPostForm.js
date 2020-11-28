@@ -1,13 +1,14 @@
 import Form from '@bit/react-bootstrap.react-bootstrap.form';
 import Button from '@bit/semantic-org.semantic-ui-react.button';
-import React, { useContext, useState } from 'react';
-import { createPost } from '../../api/createPost';
+import React, { useContext, useEffect, useState } from 'react';
+import { editPost } from '../../api/editPost';
+import { deletePost, getPost } from '../../api/getPosts';
 import { AuthContext } from '../../context/authenticationContext/authContext';
 import styles from './Posts.module.css';
 import Alert from '@bit/react-bootstrap.react-bootstrap.alert';
 import Icon from '@bit/semantic-org.semantic-ui-react.icon';
 
-const CreatePostForm = () => {
+const EditPostForm = ({ postID, history }) => {
 
     const [title, setTitle] = useState('');
     const [content, changeContent] = useState('');
@@ -23,14 +24,46 @@ const CreatePostForm = () => {
         e.preventDefault();
         setStatus((current) => ({ ...current, uploading: true }));
 
-        const response = await createPost({ title, content, author: authStatus?.userDetails?._id }, authStatus.jwt);
+        let response;
+
+        try {
+            response = await editPost(postID, { title, content, author: authStatus?.userDetails?._id }, authStatus.jwt);
+        } catch (error) {
+            response = error.response;
+        }
 
         if (response.status === 200) {
             return setStatus({ uploadStatus: 'success', error: null, uploading: false });
         } else {
             return setStatus({ uploadStatus: 'error', error: response, uploading: false });
         }
+    };
+
+    const handleDelete = async () => {
+        setStatus((current) => ({ ...current, uploading: true }));
+
+        const response = await deletePost(postID, authStatus.jwt);
+        if (response.status === 200) {
+            history.push('/myPosts');
+            return setStatus({ uploadStatus: 'success', error: null, uploading: false });
+        } else {
+            return setStatus({ uploadStatus: 'error', error: response, uploading: false });
+        }
     }
+
+    useEffect(() => {
+        (async () => {
+            const response = await getPost(postID, authStatus.jwt);
+
+            if (response?.status === 200 && response.data) {
+                setTitle(response.data.title);
+                changeContent(response.data.content);
+                return;
+            }
+
+            return;
+        })();
+    }, []);
 
     return (
         <div className={styles.container}>
@@ -45,9 +78,18 @@ const CreatePostForm = () => {
                         <Form.Control as='textarea' rows={10} value={content} onChange={(e) => changeContent(e.target.value)} required />
                     </Form.Group>
                     <Form.Group>
-                        <Button type='submit' primary loading={uploadStatus.uploading} disabled={uploadStatus.uploadStatus === 'success' || uploadStatus.uploadStatus === 'error'}>
-                            <Icon name='pencil' />Compose
-                        </Button>
+                        <div className='d-flex'>
+                            <div>
+                                <Button type='submit' primary loading={uploadStatus.uploading}>
+                                    <Icon name='pencil' />Edit
+                                </Button>
+                            </div>
+                            <div>
+                                <Button color='red' onClick={() => handleDelete()}>
+                                    Delete
+                                </Button>
+                            </div>
+                        </div>
                     </Form.Group>
                 </Form>
             </div>
@@ -73,4 +115,4 @@ const CreatePostForm = () => {
     );
 }
 
-export default CreatePostForm;
+export default EditPostForm;

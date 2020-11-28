@@ -1,4 +1,6 @@
+import Button from '@bit/semantic-org.semantic-ui-react.button';
 import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { getAllPosts } from '../../api/getPosts';
 import PostCard from '../../components/posts/PostCard';
 import { AuthContext } from '../../context/authenticationContext/authContext';
@@ -8,7 +10,7 @@ const ListPosts = () => {
     const { authStatus } = useContext(AuthContext);
 
     const [posts, setPosts] = useState({
-        loading: false,
+        loading: true,
         posts: [],
         error: null
     });
@@ -34,6 +36,14 @@ const ListPosts = () => {
     return (
         <div className='container'>
             <h2 className='p-3 text-center mt-3'>My Posts</h2>
+            {!posts.loading && posts.posts.length === 0 &&
+                <div className='mt-5 text-center'>
+                    <h3 className='text-center'>You have no posts.</h3>
+                    <Link to='/createPost'>
+                        <a href='#'>Create One</a>
+                    </Link>
+                </div>
+            }
             <div className='row no-gutters justify-content-center'>
                 {posts.posts.map((post) => (
                     <div className='col-10' key={post._id}>
