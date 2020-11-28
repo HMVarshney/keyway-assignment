@@ -87,15 +87,13 @@ const AuthContextProvider = ({ children }) => {
             console.log(error.response);
             window.location.reload();
         }
-    }
-
-    console.log(authStatus)
+    };
 
     return (
         <AuthContext.Provider value={{ authStatus, login, logout, register, updateUserDetails }}>
             { children}
         </AuthContext.Provider>
     );
-}
+};
 
 export default AuthContextProvider;

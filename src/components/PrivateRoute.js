@@ -7,8 +7,6 @@ const PrivateRoute = ({ render, path }) => {
 
     const { authStatus: { isAuthenticated } } = useContext(AuthContext);
 
-    console.log(render, typeof path);
-
     return (
         <Route exact path={path} render={(props) =>
             isAuthenticated ?

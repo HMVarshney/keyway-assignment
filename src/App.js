@@ -6,6 +6,8 @@ import AuthContextProvider from './context/authenticationContext/authContext';
 import './styles/semantic-ui-css/semantic.min.css';
 import Navbar from './components/navbar/Navbar';
 import PrivateRoute from './components/PrivateRoute';
+import Loader from './components/loader/Loader';
+
 const Login = lazy(() => import('./pages/login/login'));
 const CreatePost = lazy(() => import('./pages/posts/createPost'));
 const Register = lazy(() => import('./pages/login/register'));
@@ -14,7 +16,7 @@ const PostDisplay = lazy(() => import('./pages/posts/postDisplay'));
 const EditPost = lazy(() => import('./pages/posts/editPost'));
 
 const LazyLoadComponent = ({ children }) => (
-  <Suspense fallback={<div>Loading....</div>}>
+  <Suspense fallback={<div />}>
     {children}
   </Suspense>
 );

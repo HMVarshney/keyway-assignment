@@ -2,6 +2,7 @@ import Button from '@bit/semantic-org.semantic-ui-react.button';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllPosts } from '../../api/getPosts';
+import Loader from '../../components/loader/Loader';
 import PostCard from '../../components/posts/PostCard';
 import { AuthContext } from '../../context/authenticationContext/authContext';
 
@@ -32,6 +33,12 @@ const ListPosts = () => {
             return;
         })();
     }, [loadAgain]);
+
+    if (posts.loading) {
+        return (
+            <Loader />
+        )
+    }
 
     return (
         <div className='container'>

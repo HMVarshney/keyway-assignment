@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@bit/davidhu2000.react-spinners.rise-loader": "^0.5.1",
     "@bit/react-bootstrap.react-bootstrap.alert": "^1.0.0",
     "@bit/react-bootstrap.react-bootstrap.form": "^1.0.0",
     "@bit/semantic-org.semantic-ui-react.button": "^0.88.2",
