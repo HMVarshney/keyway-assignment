@@ -45,7 +45,7 @@ const CreatePostForm = () => {
                         <Form.Control as='textarea' rows={10} value={content} onChange={(e) => changeContent(e.target.value)} required />
                     </Form.Group>
                     <Form.Group>
-                        <Button type='submit' primary loading={uploadStatus.uploading} disabled={uploadStatus.uploadStatus === 'success' || uploadStatus.uploadStatus === 'error'}>
+                        <Button type='submit' primary loading={uploadStatus.uploading} disabled={uploadStatus.uploadStatus === 'success'}>
                             <Icon name='pencil' />Compose
                         </Button>
                     </Form.Group>

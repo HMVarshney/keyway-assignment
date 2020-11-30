@@ -1,10 +1,10 @@
 import * as URL from '../constants';
 import Axios from 'axios';
 
-function editPost(postID, formData, jwt) {
+async function editPost(postID, formData, jwt) {
     console.log(formData, jwt);
     try {
-        const response = Axios.put(`${URL.BACKEND_URL}/posts/${postID}`, formData, {
+        const response = await Axios.put(`${URL.BACKEND_URL}/posts/${postID}`, formData, {
             headers: {
                 'Authorization': `Bearer ${jwt}`
             }
@@ -13,8 +13,8 @@ function editPost(postID, formData, jwt) {
         return response;
 
     } catch (error) {
-        console.log(error.response);
-        return error.response
+        console.log(error);
+        return error;
     }
 };
 

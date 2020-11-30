@@ -10,7 +10,7 @@ async function getAllPosts(jwt) {
         });
         return response;
     } catch (error) {
-        console.log(error.response);
+        console.log(error);
         return error;
     };
 };
@@ -24,7 +24,7 @@ async function getPost(id, jwt) {
         });
         return response;
     } catch (error) {
-        console.log(error.response);
+        console.log(error);
         return error;
     };
 };
@@ -38,7 +38,7 @@ async function deletePost(id, jwt) {
         });
         return response;
     } catch (error) {
-        console.log(error.response);
+        console.log(error);
         return error;
     };
 }

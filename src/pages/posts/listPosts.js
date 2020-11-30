@@ -34,6 +34,14 @@ const ListPosts = () => {
         })();
     }, [loadAgain]);
 
+    if (posts.error) {
+        return (
+            <div className='mt-5 text-center'>
+                <h3 style={{ color: 'red' }} className='text-center'>There was a problem fetching your posts. Try Again.</h3>
+            </div>
+        );
+    }
+
     if (posts.loading) {
         return (
             <Loader />

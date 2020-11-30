@@ -15,14 +15,16 @@ const Login = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await login(emailRef.current.value, passwordRef.current.value);
+        const response = await login(emailRef.current.value, passwordRef.current.value);
 
-        emailRef.current.disabled = true; passwordRef.current.disabled = true;
+        if (response.status === 200) {
+            emailRef.current.disabled = true; passwordRef.current.disabled = true;
 
-        if (props.location.state) {
-            props.history.push(props.location.state.from.pathname);
-        } else {
-            props.history.push('/');
+            if (props.location.state) {
+                props.history.push(props.location.state.from.pathname);
+            } else {
+                props.history.push('/');
+            }
         }
     };
 

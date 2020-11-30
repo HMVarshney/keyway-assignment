@@ -24,13 +24,7 @@ const EditPostForm = ({ postID, history }) => {
         e.preventDefault();
         setStatus((current) => ({ ...current, uploading: true }));
 
-        let response;
-
-        try {
-            response = await editPost(postID, { title, content, author: authStatus?.userDetails?._id }, authStatus.jwt);
-        } catch (error) {
-            response = error.response;
-        }
+        let response = await editPost(postID, { title, content, author: authStatus?.userDetails?._id }, authStatus.jwt);
 
         if (response.status === 200) {
             return setStatus({ uploadStatus: 'success', error: null, uploading: false });
@@ -97,7 +91,7 @@ const EditPostForm = ({ postID, history }) => {
                 <div className='mt-5'>
                     <Alert variant='success'>
                         <p className='text-center p-1'>
-                            Your post has been uploaded!
+                            Your post has been updated!
                         </p>
                     </Alert>
                 </div>
@@ -106,7 +100,7 @@ const EditPostForm = ({ postID, history }) => {
                 <div className='mt-5'>
                     <Alert variant='danger'>
                         <p className='text-center p-1'>
-                            There was a problem uploading your post. Please try again.
+                            There was a problem updating your post. Please try again.
                         </p>
                     </Alert>
                 </div>

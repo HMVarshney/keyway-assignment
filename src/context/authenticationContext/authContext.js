@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as URL from '../../constants';
 import { createContext, useState } from "react";
 import { getFromLocalStorage, deleteFromLocalStorage, loginUser, saveInLocalStorage, readCookie, setCookie, deleteCookie, registerUser } from "./authActions";
@@ -62,9 +62,9 @@ const AuthContextProvider = ({ children }) => {
             return loginResponse;
 
         } catch (error) {
-            console.log(error.response);
+            console.log(error);
             setAuthStatus({ isAuthenticated: false, userDetails: {}, authenticationError: error, jwt: '', isVerifying: false });
-            return error.response;
+            return error;
         }
     };
 
@@ -89,11 +89,29 @@ const AuthContextProvider = ({ children }) => {
         }
     };
 
+    useEffect(() => {
+        if (authStatus.isAuthenticated) {
+            (async () => {
+                console.log(authStatus.jwt);
+                try {
+                    await Axios.get(`${URL.BACKEND_URL}/verifyJWT`, {
+                        headers: {
+                            'Authorization': `Bearer ${authStatus.jwt}`
+                        }
+                    });
+                } catch (error) {
+                    console.log(error);
+                    logout();
+                }
+            })();
+        }
+    }, []);
+
     return (
         <AuthContext.Provider value={{ authStatus, login, logout, register, updateUserDetails }}>
-            { children}
+            {children}
         </AuthContext.Provider>
     );
 };
-
 export default AuthContextProvider;
+

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { getPost } from '../../api/getPosts';
-import PostCard from '../../components/posts/PostCard';
+import Loader from '../../components/loader/Loader';
 import { AuthContext } from '../../context/authenticationContext/authContext';
 
 
@@ -9,7 +9,7 @@ const PostDisplay = (props) => {
     const { authStatus } = useContext(AuthContext);
 
     const [post, setPost] = useState({
-        loading: false,
+        loading: true,
         post: {},
         error: null
     });
@@ -29,20 +29,23 @@ const PostDisplay = (props) => {
         })();
     }, []);
 
-    // console.log(props.match.params);
-
     if (post.loading) {
-        return (<div>Loading....</div>)
+        return <Loader />
     }
 
     if (post.error) {
-        return (<div><h2>There has been an error fetching the post.</h2></div>)
+        return (
+            <div className='mt-5'>
+                <h2 style={{ color: 'red' }} className='text-center'>There has been an error fetching the post.</h2>
+            </div>
+        )
     }
 
     return (
         <div className='container'>
             <div className='d-flex flex-column p-4'>
-                <h2>{post.post.title}</h2>
+                <h2 style={{ margin: 0, padding: 0 }}>{post.post.title}</h2>
+                <h5 style={{ margin: 0, padding: 0 }}>By {post.post.author.username}</h5>
                 <div className='mt-4 col-9'>
                     <img style={{ borderRadius: '8px' }} src='/assets/images/blog.jpg' alt='blog' width='100%' />
                 </div>
