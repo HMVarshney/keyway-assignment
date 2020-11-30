@@ -44,9 +44,7 @@ function deletePost(req, res) {
             return res.sendStatus(500);
         }
 
-        console.log(result)
-
-        return res.status(200).send('Post deleted');
+        return res.send('Post deleted');
     });
 };
 
@@ -58,7 +56,6 @@ function updatePost(req, res) {
             return res.status(500).send();
         }
 
-        console.log(result);
         return res.json(result);
 
     });
@@ -72,7 +69,6 @@ function getAllPosts(req, res) {
                 return res.status(500).send();
             }
 
-            console.log(result);
             return res.json(result);
         });
 };

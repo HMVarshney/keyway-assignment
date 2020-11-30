@@ -4,8 +4,7 @@ const { jwtSecret } = require('../constants');
 function verifyJWT(req, res, next) {
 
     if (req.headers.authorization) {
-        let accessToken = req.headers.authorization.split(' ')[1]
-        console.log(accessToken);
+        let accessToken = req.headers.authorization.split(' ')[1];
 
         let payload;
 
@@ -14,11 +13,11 @@ function verifyJWT(req, res, next) {
             next();
 
         } catch (error) {
-            res.status(401).send();
+            res.status(401).json({ message: 'Unauthorized' });
             return;
         }
     } else {
-        res.status(403).json({ message: 'Forbidden' });
+        res.status(401).json({ message: 'Unauthorized' });
     }
 };
 

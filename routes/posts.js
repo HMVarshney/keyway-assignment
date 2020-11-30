@@ -1,4 +1,4 @@
-const { createPost, getPost, deletePost, updatePost, getAllPosts } = require('../handlers/posts');
+const { createPost, getPost, deletePost, updatePost, getAllPosts } = require('../controllers/posts');
 const router = require('express').Router();
 
 router.get('/', getAllPosts)

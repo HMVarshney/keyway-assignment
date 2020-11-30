@@ -39,8 +39,6 @@ function login(req, res) {
     const email = req.body.email;
     const password = req.body.password;
 
-    console.log(email, password);
-
     UserModal.findOne({ email, password }, (error, result) => {
         if (error) {
             res.sendStatus(500);
@@ -64,13 +62,12 @@ function login(req, res) {
     });
 };
 
-function logout(req, res) {
-    res.clearCookie('auth-jwt');
-    res.json({ message: 'OK' });
-}
+// function logout(req, res) {
+//     res.clearCookie('auth-jwt');
+//     res.json({ message: 'OK' });
+// }
 
 module.exports = {
     register: register,
-    login: login,
-    logout: logout
+    login: login
 };
