@@ -1,17 +1,20 @@
 const jwt = require('jsonwebtoken');
 const { jwtSecret, jwtLife } = require('../constants');
+const bcrypt = require('bcrypt');
 
 const UserModal = require('../models/authentication');
 
-function register(req, res) {
+async function register(req, res) {
 
     const username = req.body.username;
     const password = req.body.password;
     const email = req.body.email;
 
+    const hashedPassword = await generateHash(password);
+
     const user = new UserModal({
         username,
-        password,
+        password: hashedPassword,
         email
     });
 
@@ -22,6 +25,8 @@ function register(req, res) {
         });
 
         // res.cookie('auth-jwt', token, { httpOnly: true });
+        result.password = undefined;
+
         res.json({
             user: result,
             jwt: token
@@ -39,11 +44,15 @@ function login(req, res) {
     const email = req.body.email;
     const password = req.body.password;
 
-    UserModal.findOne({ email, password }, (error, result) => {
+    UserModal.findOne({ email }, async (error, result) => {
         if (error) {
             res.sendStatus(500);
             return;
-        } else if (result.length !== 0) {
+        } else if (result) {
+
+            if (!await decryptPassword(password, result.password)) {
+                return res.status(401).json({ message: 'Email or Password is wrong' });
+            }
 
             const token = jwt.sign({ email, password }, jwtSecret, {
                 algorithm: 'HS256',
@@ -51,6 +60,7 @@ function login(req, res) {
             });
 
             // res.cookie('auth-jwt', token, { httpOnly: true });
+            result.password = undefined;
 
             res.status(200).json({ jwt: token, user: result });
             return;
@@ -62,10 +72,13 @@ function login(req, res) {
     });
 };
 
-// function logout(req, res) {
-//     res.clearCookie('auth-jwt');
-//     res.json({ message: 'OK' });
-// }
+async function generateHash(password) {
+    return await bcrypt.hash(password, 10);
+}
+
+async function decryptPassword(password, hashedPassword) {
+    return await bcrypt.compare(password, hashedPassword);
+}
 
 module.exports = {
     register: register,
